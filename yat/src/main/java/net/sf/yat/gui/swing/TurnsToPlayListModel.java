@@ -15,7 +15,7 @@ public class TurnsToPlayListModel extends AbstractListModel{
 		
 		game.addListener(new GameListener() {			
 			@Override
-			public void roundPlayed(final GameRound round) {
+			public void afterRound(final GameRound round) {
 				fireIntervalRemoved(game, 0, 0);
 			}
 			

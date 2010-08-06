@@ -33,15 +33,22 @@ public class GameRound {
 	}
 	
 	public Player getPlayingPlayer() {
-		return roundOwner.getPlayers().get(playingPlayer);
+		return nullSafeGetPlayer(roundOwner, playingPlayer);
 	}
 	
 	public Player getWinningPlayer() {
-		return roundWinner.getPlayers().get(winningPlayer);
-	}
+		return nullSafeGetPlayer(roundWinner, winningPlayer);
+	}	
 	
 	@Override
 	public String toString() {
 		return String.format("%s(%s) - %s", getWinningPlayer(), getRoundWinner(), getTask());
+	}
+	
+	private Player nullSafeGetPlayer(Team team, int playerNum) {
+		if (team == null || team.getPlayers() == null) {
+			return null;
+		}
+		return team.getPlayers().get(playerNum);
 	}
 }

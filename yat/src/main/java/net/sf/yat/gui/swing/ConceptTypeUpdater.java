@@ -21,7 +21,7 @@ public class ConceptTypeUpdater implements GameListener{
 	}
 	
 	@Override
-	public void roundPlayed(GameRound round) {
+	public void afterRound(GameRound round) {
 		// do nothing
 	}
 }

@@ -35,7 +35,7 @@ public class CurrentPlayerSelector implements GameListener {
 	}
 
 	@Override
-	public void roundPlayed(GameRound round) {
+	public void afterRound(GameRound round) {
 		JLabel label = playerLabels.get(round.getPlayingPlayer());
 		label.setForeground(Color.DARK_GRAY);	
 	}
