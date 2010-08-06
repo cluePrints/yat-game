@@ -15,7 +15,7 @@ public class RoundsPlayedListModel extends AbstractListModel{
 		
 		game.addListener(new GameListener() {			
 			@Override
-			public void roundPlayed(final GameRound round) {
+			public void afterRound(final GameRound round) {
 				fireContentsChanged(game, game.getPlayed().size(), game.getPlayed().size());
 			}
 			

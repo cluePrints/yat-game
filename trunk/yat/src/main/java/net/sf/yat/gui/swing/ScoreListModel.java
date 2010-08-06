@@ -20,7 +20,7 @@ public class ScoreListModel extends AbstractListModel{
 		scores = game.getScores();
 		game.addListener(new GameListener() {			
 			@Override
-			public void roundPlayed(GameRound round) {
+			public void afterRound(GameRound round) {
 				scores = game.getScores();
 				fireContentsChanged(game, 0, scores.size());
 			}

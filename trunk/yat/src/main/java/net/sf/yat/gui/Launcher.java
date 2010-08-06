@@ -8,6 +8,6 @@ import net.sourceforge.napkinlaf.NapkinLookAndFeel;
 public class Launcher {
 	public static void main(String[] args) throws Exception{
 		UIManager.setLookAndFeel(NapkinLookAndFeel.class.getName());
-		GameGui gui = new GameGui();		
+		new GameGui();		
 	}
 }

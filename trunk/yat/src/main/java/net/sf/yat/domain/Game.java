@@ -40,11 +40,11 @@ public class Game {
 			Team winner = teams.get(teamNum);
 			GameRound round = new GameRound(currentTeam, currentTeam.getPlayers().indexOf(currentPlayer), winner, playerNum,
 					currentTask);
-			played.add(round);
-			nextMove();
+			played.add(round);			
 			for (GameListener listener : listeners) {
-				listener.roundPlayed(round);
+				listener.afterRound(round);
 			}
+			nextMove();
 		}
 	}
 
@@ -102,8 +102,8 @@ public class Game {
 	public Game(List<Team> teams, LinkedList<Team> turnsToPlay,
 			TaskProvider provider) {
 		super();
-		this.teams = teams;
-		this.turnsToPlay = turnsToPlay;
+		this.teams = new LinkedList<Team>(teams);
+		this.turnsToPlay = new LinkedList<Team>(turnsToPlay);
 		this.played = new LinkedList<GameRound>();
 		this.provider = provider;
 	}
