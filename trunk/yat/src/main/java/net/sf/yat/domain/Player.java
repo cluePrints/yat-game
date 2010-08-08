@@ -1,5 +1,8 @@
 package net.sf.yat.domain;
 
+/**
+ * Participating player 
+ */
 public class Player {
 	private final String name;
 

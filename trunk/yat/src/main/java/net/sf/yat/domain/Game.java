@@ -9,6 +9,12 @@ import java.util.Map;
 
 import net.sf.yat.dao.TextTaskDAO;
 
+/**
+ * Contains main logic, basically rules of the game.
+ * 
+ * Other classes in this package are immutable value classes with no logic at all. 
+ *
+ */
 public class Game {
 	private final List<Team> teams;
 	private List<GameRound> played;
@@ -24,17 +30,27 @@ public class Game {
 		return getTurnsToPlay().isEmpty();
 	}
 
+	/**
+	 * Game is started and not finished yet
+	 */
 	public boolean isInProgress() {
 		return !turnsToPlay.isEmpty() && currentTask != null
 				&& currentTeam != null;
 	}
 
+	/**
+	 * Starts the game if it's not started yet by determining player, team and stuff for current round
+	 */
 	public void start() {
 		if (!isInProgress()) {
 			nextMove();
 		}
 	}
 
+	/**
+	 * Called when round was won by some player from some team.
+	 * This triggers {@link GameListener} events and start of new round.
+	 */
 	public void roundWon(int teamNum, int playerNum) {
 		if (isInProgress()) {
 			Team winner = teams.get(teamNum);
@@ -48,6 +64,9 @@ public class Game {
 		}
 	}
 
+	/**
+	 * Set up new round and trigger event listeners
+	 */
 	private void nextMove() {
 		currentTeam = turnsToPlay.poll();
 		currentTask = provider.getTask();
@@ -58,12 +77,17 @@ public class Game {
 		}
 	}
 
+	/**
+	 * Returns list of pais, team:score, sorted descending.
+	 */
 	public List<Pair<Team, Integer>> getScores() {
+		// initialize per team scores with 0
 		Map<Team, Integer> scores = new HashMap<Team, Integer>();
 		for (Team team : getTeams()) {
 			scores.put(team, 0);
 		}
 
+		// walk through the history and update team scores
 		List<GameRound> played = getPlayed();
 		for (GameRound round : played) {
 			Team winner = round.getRoundWinner();
@@ -72,16 +96,19 @@ public class Game {
 			scores.put(winner, initial + wonPoints);
 		}
 
+		// transform results to a list of pairs
 		List<Pair<Team, Integer>> results = new LinkedList<Pair<Team, Integer>>();
 		for (Map.Entry<Team, Integer> entry : scores.entrySet()) {
 			results.add(new Pair<Team, Integer>(entry.getKey(), entry
 					.getValue()));
 		}
+		
 		Collections.sort(results, comparator);
 
 		return results;
 	}
 
+	// sorts pairs based on their second value so that bigger comes first (descending)
 	private Comparator<Pair<Team, Integer>> comparator = new Comparator<Pair<Team, Integer>>() {
 		@Override
 		public int compare(Pair<Team, Integer> o1, Pair<Team, Integer> o2) {
@@ -98,7 +125,9 @@ public class Game {
 				"tasks"));
 		return game;
 	}
-
+	
+	// ==================================================================
+	// Constructor & getter methods - not really interesting stuff
 	public Game(List<Team> teams, LinkedList<Team> turnsToPlay,
 			TaskProvider provider) {
 		super();

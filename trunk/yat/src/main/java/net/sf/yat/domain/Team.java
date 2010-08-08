@@ -2,6 +2,9 @@ package net.sf.yat.domain;
 
 import java.util.List;
 
+/**
+ * Team of players participating.
+ */
 public class Team {
 	private final List<Player> players;
 	private final String name;

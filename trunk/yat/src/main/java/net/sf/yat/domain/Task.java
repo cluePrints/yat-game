@@ -1,5 +1,9 @@
 package net.sf.yat.domain;
 
+/**
+ * Task for a round. 
+ * That's description of concept, complexity and method of communication used by players.  
+ */
 public class Task {
 	private final TaskType type;
 	private final String concept;

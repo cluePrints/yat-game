@@ -1,5 +1,8 @@
 package net.sf.yat.domain;
 
+/**
+ * Round, could be not played yet (i.e. with now winning team), or finished.
+ */
 public class GameRound {
 	private final Team roundOwner;
 	private final int playingPlayer;

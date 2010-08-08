@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Helper class for determining who's next based on rounds played already.
+ */
 public class PlayerTurnStrategy {
 	public Player getPlayer(List<GameRound> roundsPlayed, List<Team> teams)
 	{
