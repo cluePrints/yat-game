@@ -18,7 +18,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 
@@ -57,9 +59,21 @@ public class GameGui extends JFrame {
 		
 		JList scores = new JList(new ScoreListModel(game));
 		
+		JPanel timerPanel = new JPanel();
+		timerPanel.setLayout(new BoxLayout(timerPanel, BoxLayout.Y_AXIS));
+		JTextField tfTimeLeft = new JTextField("180");
+		tfTimeLeft.setHorizontalAlignment(JTextField.CENTER);
+		timerPanel.add(tfTimeLeft);
+		JProgressBar pbTimeLeft = new JProgressBar(0, 180);
+		timerPanel.add(pbTimeLeft);
+		timerPanel.add(new JButton("Start\\Pause"));
+		
 		JTabbedPane bottomRightPanel = new JTabbedPane();
 		bottomRightPanel.add("Scores", scores);
 		bottomRightPanel.add("History", pnlPlayedHistory);		
+		bottomRightPanel.add("Timer", timerPanel);
+		
+		game.addListener(new TimerListener(bottomRightPanel, 2, tfTimeLeft, pbTimeLeft));
 		
 		
 		
