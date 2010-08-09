@@ -1,25 +1,23 @@
 package net.sf.yat.gui.gwt.client;
 
+import net.sf.yat.domain.Game;
+import net.sf.yat.domain.GameFactory;
+
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.TextBox;
 
 public class Entry implements EntryPoint {
 
+	GameFactory gameFactory = new GameFactory(new HardCodedTaskDAO());
+	
 	public void onModuleLoad() {
-		final Button sendButton = new Button("Send");
-		final TextBox nameField = new TextBox();
-		nameField.setText("GWT User");
-
-		// We can add style names to widgets
-		sendButton.addStyleName("sendButton");
-
-		// Add the nameField and sendButton to the RootPanel
-		// Use RootPanel.get() to get the entire body element
-		RootPanel.get("nameFieldContainer").add(nameField);
-		RootPanel.get("sendButtonContainer").add(sendButton);
+		MainView view = new MainView("Hello");
+		RootPanel.get().add(view);
+		
+		Game game = gameFactory.generateGame(5, 5, 3);
+		game.start();
+		view.lbConcept.setText(game.getCurrentTask().getConcept());
+		view.lbType.setText(game.getCurrentTask().getType().toString());
 	}
 
 }

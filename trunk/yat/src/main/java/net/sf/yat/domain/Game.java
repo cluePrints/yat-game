@@ -7,8 +7,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.yat.dao.TextTaskDAO;
-
 /**
  * Contains main logic, basically rules of the game.
  * 
@@ -115,16 +113,6 @@ public class Game {
 			return -o1.second.compareTo(o2.second);
 		}
 	};
-
-	public static Game newInstance(List<Team> teams) {
-		LinkedList<Team> turnsToPlay = new LinkedList<Team>();
-		for (int i = 0; i < 5; i++) {
-			turnsToPlay.addAll(teams);
-		}
-		Game game = new Game(teams, turnsToPlay, new TextTaskDAO(
-				"tasks"));
-		return game;
-	}
 	
 	// ==================================================================
 	// Constructor & getter methods - not really interesting stuff

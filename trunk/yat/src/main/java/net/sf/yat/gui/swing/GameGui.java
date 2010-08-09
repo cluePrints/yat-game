@@ -7,8 +7,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
@@ -24,16 +22,19 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 
+import net.sf.yat.dao.TextTaskDAO;
 import net.sf.yat.domain.Game;
+import net.sf.yat.domain.GameFactory;
 import net.sf.yat.domain.Player;
 import net.sf.yat.domain.Team;
 
 @SuppressWarnings("serial")
 public class GameGui extends JFrame {
 	Map<Team, JPanel> teamPanes = new HashMap<Team, JPanel>();
-
+	GameFactory gameFactory = new GameFactory(new TextTaskDAO("tasks"));
+	
 	public GameGui() {
-		final Game game = generateGame(5, 5, 3);
+		final Game game = gameFactory.generateGame(5, 5, 3);
 		setLayout(new GridLayout(2, 2));
 		JPanel topLeftPanel = new JPanel();
 		topLeftPanel.setLayout(new GridLayout(1, 2));
@@ -126,24 +127,5 @@ public class GameGui extends JFrame {
 		btnTaskType.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
 		btnTaskType.setHorizontalTextPosition(SwingConstants.CENTER);
 		return btnTaskType;
-	}
-
-	private Game generateGame(int teamNum, int playersNum, int gamesNum) {
-		List<Team> teams = new LinkedList<Team>();
-		for (int j = 1; j <= teamNum; j++) {
-			List<Player> players = new LinkedList<Player>();
-			for (int i = 1; i <= playersNum; i++) {
-				players.add(new Player("Player #" + j + "" + i));
-			}
-			Team team = new Team(players, "Team #" + j);
-			teams.add(team);
-		}
-
-		List<Team> turnsToPlay = new LinkedList<Team>();
-		for (int i = 0; i < gamesNum; i++) {
-			turnsToPlay.addAll(teams);
-		}
-		Game game = Game.newInstance(teams);		
-		return game;
 	}
 }
