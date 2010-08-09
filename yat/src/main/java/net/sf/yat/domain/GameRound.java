@@ -45,7 +45,7 @@ public class GameRound {
 	
 	@Override
 	public String toString() {
-		return String.format("%s(%s) - %s", getWinningPlayer(), getRoundWinner(), getTask());
+		return getWinningPlayer()+"("+getRoundWinner()+") - "+getTask();
 	}
 	
 	private Player nullSafeGetPlayer(Team team, int playerNum) {
