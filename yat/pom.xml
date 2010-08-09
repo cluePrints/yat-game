@@ -42,6 +42,20 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-servlet</artifactId>
+			<version>2.0.4</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-user</artifactId>
+			<version>2.0.4</version>
+			<type>jar</type>
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -70,16 +84,29 @@
 			<plugin>
 				<groupId>org.dstovall</groupId>
 				<artifactId>onejar-maven-plugin</artifactId>
+				<!--
+					executions> <execution> <id>all-to-one-jar</id>
+					<phase>package</phase> <goals> <goal>one-jar</goal> </goals>
+					</execution> </executions
+				-->
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>gwt-maven-plugin</artifactId>
+				<version>1.2</version>
 				<executions>
 					<execution>
-						<phase>package</phase>
+						<id>gwt</id>
 						<goals>
-							<goal>one-jar</goal>
+							<goal>compile</goal>
 						</goals>
 					</execution>
 				</executions>
+				<configuration>
+					<runTarget>net.sf.yat.gui.gwt.client.Entry/App.html</runTarget>
+				</configuration>
 			</plugin>
-
 		</plugins>
 	</build>
 </project>
