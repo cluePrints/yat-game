@@ -15,10 +15,7 @@ public class Entry implements EntryPoint {
 		MainView view = new MainView(game);
 		RootPanel.get().add(view);
 		
-		game.start();		
-		
-		view.lbConcept.setText(game.getCurrentTask().getConcept());
-		view.lbType.setText(game.getCurrentTask().getType().toString());
+		game.start();				
 	}
 
 }

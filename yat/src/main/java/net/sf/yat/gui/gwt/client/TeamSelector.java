@@ -7,11 +7,9 @@ import net.sf.yat.domain.Team;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.ListBox;
@@ -31,6 +29,9 @@ public class TeamSelector extends Composite {
 	Button btnOk;
 	
 	@UiField
+	Button btnCancel;
+	
+	@UiField
 	ListBox lstTeams;
 	
 	@UiField
@@ -38,7 +39,7 @@ public class TeamSelector extends Composite {
 
 	public TeamSelector() {
 		initWidget(uiBinder.createAndBindUi(this));
-	}
+	}	
 	
 	public void setTeams(List<Team> teams) {
 		this.teams = teams;
@@ -46,21 +47,49 @@ public class TeamSelector extends Composite {
 		for (Team team : teams) {
 			lstTeams.addItem(team.getName());
 		}
-		lstTeams.setSelectedIndex(-1);
+		reset();
 	}
 
-	@UiHandler("btnOk")
-	void onClick(ClickEvent e) {
-		Window.alert("Hello!");
-	}
+	public void reset() {
+		btnOk.setEnabled(false);
+		lstTeams.setSelectedIndex(-1);
+		lstPlayers.clear();
+	}			
 	
 	@UiHandler("lstTeams")
-	void onChange(ChangeEvent evt) {
-		int num = lstTeams.getSelectedIndex();
-		Team currTeam = teams.get(num);
+	void onTeamChange(ChangeEvent evt) {
+		Team currTeam = getSelectedTeam();
 		lstPlayers.clear();
 		for (Player player : currTeam.getPlayers()) {
 			lstPlayers.addItem(player.getName());
 		}
+		lstPlayers.setSelectedIndex(-1);
+	}
+	
+	@UiHandler("lstPlayers")
+	void onPlayerChange(ChangeEvent evt) {
+		btnOk.setEnabled(getSelectedPlayerNum() >= 0);
+	}
+	
+	public Player getSelectedPlayer()
+	{
+		Team currTeam = getSelectedTeam();
+		int num = getSelectedPlayerNum();
+		Player currPlayer = currTeam.getPlayers().get(num);
+		return currPlayer;
+	}
+
+	public int getSelectedPlayerNum() {
+		return lstPlayers.getSelectedIndex();
+	}
+
+	public Team getSelectedTeam() {
+		int num = getSelectedTeamNum();
+		Team currTeam = teams.get(num);
+		return currTeam;
+	}
+
+	public int getSelectedTeamNum() {
+		return lstTeams.getSelectedIndex();
 	}
 }
