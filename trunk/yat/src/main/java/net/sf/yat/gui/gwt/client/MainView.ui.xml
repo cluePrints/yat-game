@@ -22,14 +22,14 @@
 					<g:PushButton ui:field="btnTimer" text="Pause" width="50px"/>
 				</g:HorizontalPanel>
 				<g:HorizontalPanel>
-					<g:PushButton text="Failed" width="50px"/>
-					<g:PushButton text="Guessed" width="50px"/>
+					<g:PushButton ui:field="btnFailed" text="Failed" width="50px"/>
+					<g:PushButton ui:field="btnGuessed" text="Guessed" width="50px"/>
 				</g:HorizontalPanel>
 			</g:VerticalPanel>
 		</g:tab>
 		<g:tab>
 			<g:header>Scores</g:header>
-			<custom:TeamSelector ui:field="teamSelector"/>
+			<g:HTMLPanel></g:HTMLPanel>
 		</g:tab>
 		<g:tab>
 			<g:header>Stuff</g:header>
