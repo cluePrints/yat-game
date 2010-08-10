@@ -13,12 +13,12 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
-	<pluginRepositories>
+	<!--  pluginRepositories>
 		<pluginRepository>
 			<id>dstovall.org</id>
 			<url>http://dstovall.org/maven2/</url>
 		</pluginRepository>
-	</pluginRepositories>
+	</pluginRepositories-->
 
 	<dependencies>
 		<dependency>
@@ -81,15 +81,18 @@
 				</configuration>
 
 			</plugin>
-			<plugin>
+			<!--
+				removed temporarily to make gwt build quicker
+				
+				plugin>
 				<groupId>org.dstovall</groupId>
 				<artifactId>onejar-maven-plugin</artifactId>
-				<!--
+				
 					executions> <execution> <id>all-to-one-jar</id>
 					<phase>package</phase> <goals> <goal>one-jar</goal> </goals>
 					</execution> </executions
-				-->
-			</plugin>
+				
+			</plugin-->
 
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>

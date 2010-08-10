@@ -1,6 +1,8 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
-<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+<ui:UiBinder 
+	xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:custom="urn:import:net.sf.yat.gui.gwt.client">
 	<ui:style>
 		.important {
 			font-weight: bold;
@@ -12,23 +14,22 @@
 			<g:header>Game</g:header>
 			<g:VerticalPanel width="150px">
 				<g:HorizontalPanel>
-					<g:Label ui:field="lbType"/>
-					<g:Label ui:field="lbConcept"/>
+					<g:PushButton ui:field="lbType"/>
+					<g:PushButton ui:field="lbConcept"/>
+				</g:HorizontalPanel>
+				<g:HorizontalPanel>
+					<g:TextBox ui:field="tbTimer" text="179" width="50px"/>
+					<g:PushButton ui:field="btnTimer" text="Pause" width="50px"/>
+				</g:HorizontalPanel>
+				<g:HorizontalPanel>
+					<g:PushButton text="Failed" width="50px"/>
+					<g:PushButton text="Guessed" width="50px"/>
 				</g:HorizontalPanel>
 			</g:VerticalPanel>
 		</g:tab>
 		<g:tab>
 			<g:header>Scores</g:header>
-			<g:TabLayoutPanel  barUnit='PX' barHeight='30' >
-				<g:tab>
-					<g:header>AAAAAAAAa</g:header>	
-					<g:HTML>Some html here please</g:HTML>
-				</g:tab>
-				<g:tab>
-					<g:header>BBBBBBBbbbbb</g:header>
-					<g:HTML>Some html here please</g:HTML>
-				</g:tab>
-			</g:TabLayoutPanel>
+			<custom:TeamSelector ui:field="teamSelector"/>
 		</g:tab>
 		<g:tab>
 			<g:header>Stuff</g:header>
