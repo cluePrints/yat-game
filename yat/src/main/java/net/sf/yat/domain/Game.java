@@ -65,6 +65,10 @@ public class Game {
 				listener.afterRound(round);
 			}
 			nextMove();
+		} else {
+			for (GameListener listener : listeners) {
+				listener.gameOver();
+			}
 		}
 	}
 

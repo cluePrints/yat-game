@@ -7,11 +7,11 @@ import java.util.Map;
 import javax.swing.JLabel;
 import javax.swing.JTabbedPane;
 
-import net.sf.yat.domain.GameListener;
+import net.sf.yat.domain.GameListenerAdapter;
 import net.sf.yat.domain.GameRound;
 import net.sf.yat.domain.Player;
 
-public class CurrentPlayerSelector implements GameListener {
+public class CurrentPlayerSelector extends GameListenerAdapter {
 	private Map<Player, JLabel> playerLabels = new HashMap<Player, JLabel>();
 	private Map<Player, Integer> playerTabs = new HashMap<Player, Integer>();
 	private JTabbedPane pane;

@@ -7,10 +7,10 @@ import javax.swing.JProgressBar;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
-import net.sf.yat.domain.GameListener;
+import net.sf.yat.domain.GameListenerAdapter;
 import net.sf.yat.domain.GameRound;
 
-public class TimerListener implements GameListener{
+public class TimerListener extends GameListenerAdapter{
 	public static final int ROUND_TIME = 180;
 	private JTabbedPane pane;
 	private JTextField tfTimeLeft;

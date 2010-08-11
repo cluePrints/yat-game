@@ -14,7 +14,6 @@ public class PlayerTurnStrategyTest {
 	private GameRound player11Round = new GameRound(team1, 0, null, -1, null);
 	private GameRound player12Round = new GameRound(team1, 1, null, -1, null);
 	private GameRound player21Round = new GameRound(team2, 0, null, -1, null);
-	private GameRound player22Round = new GameRound(team2, 1, null, -1, null);
 	
 	private GameRound teamOneRound = player11Round;
 	private GameRound teamTwoRound = player21Round;

@@ -5,7 +5,7 @@ import java.util.List;
 import javax.swing.AbstractListModel;
 
 import net.sf.yat.domain.Game;
-import net.sf.yat.domain.GameListener;
+import net.sf.yat.domain.GameListenerAdapter;
 import net.sf.yat.domain.GameRound;
 import net.sf.yat.domain.Pair;
 import net.sf.yat.domain.Team;
@@ -18,7 +18,7 @@ public class ScoreListModel extends AbstractListModel{
 		super();
 		this.game = pGame;
 		scores = game.getScores();
-		game.addListener(new GameListener() {			
+		game.addListener(new GameListenerAdapter() {			
 			@Override
 			public void afterRound(GameRound round) {
 				scores = game.getScores();
