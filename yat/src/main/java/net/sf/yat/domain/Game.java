@@ -51,9 +51,15 @@ public class Game {
 	 */
 	public void roundWon(int teamNum, int playerNum) {
 		if (isInProgress()) {
-			Team winner = teams.get(teamNum);
-			GameRound round = new GameRound(currentTeam, currentTeam.getPlayers().indexOf(currentPlayer), winner, playerNum,
-					currentTask);
+			GameRound round;
+			if (teamNum == -1) {
+				round = new GameRound(currentTeam, currentTeam.getPlayers()
+						.indexOf(currentPlayer), null, -1, currentTask);
+			} else {
+				Team winner = teams.get(teamNum);
+				round = new GameRound(currentTeam, currentTeam.getPlayers()
+						.indexOf(currentPlayer), winner, playerNum, currentTask);
+			}
 			played.add(round);			
 			for (GameListener listener : listeners) {
 				listener.afterRound(round);
@@ -62,6 +68,11 @@ public class Game {
 		}
 	}
 
+	public void roundFailed()
+	{
+		roundWon(-1, -1);
+	}
+	
 	/**
 	 * Set up new round and trigger event listeners
 	 */
@@ -142,7 +153,7 @@ public class Game {
 	}
 
 	public Player getCurrentPlayer() {
-		throw new RuntimeException();
+		return currentPlayer;
 	}
 
 	public List<Team> getTeams() {
