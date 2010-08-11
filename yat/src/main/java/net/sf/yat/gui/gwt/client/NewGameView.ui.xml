@@ -1,0 +1,40 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+		.important {
+			font-weight: bold;
+		}
+	</ui:style>
+	<g:TabLayoutPanel ui:field="mainPanel" barUnit='PX'
+		barHeight='30' width="150px" height="150px">
+		<g:tab>
+			<g:header>Teams</g:header>
+			<g:VerticalPanel>
+				<g:ScrollPanel height="80px">
+					<g:VerticalPanel ui:field="plTeams"/>
+				</g:ScrollPanel>
+				<g:HorizontalPanel>
+					<g:Button ui:field="btnNewTeam" text="+"/>
+				</g:HorizontalPanel>
+			</g:VerticalPanel>
+		</g:tab>
+		<g:tab>
+			<g:header>Players</g:header>
+			<g:VerticalPanel>
+				<g:ScrollPanel height="80px">
+					<g:VerticalPanel ui:field="plPlayers"/>
+				</g:ScrollPanel>
+				<g:HorizontalPanel>
+					<g:Button ui:field="btnNewPlayer" text="+"/>
+				</g:HorizontalPanel>
+			</g:VerticalPanel>
+		</g:tab>
+		<g:tab>
+			<g:header>Go</g:header>
+			<g:VerticalPanel>
+				<g:Button ui:field="btnOk">Go!</g:Button>
+			</g:VerticalPanel>
+		</g:tab>
+	</g:TabLayoutPanel>
+</ui:UiBinder> 
