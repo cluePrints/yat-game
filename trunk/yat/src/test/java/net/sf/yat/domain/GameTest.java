@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 
 import org.easymock.Capture;
+import org.easymock.EasyMock;
 import org.junit.Test;
 
 @SuppressWarnings("unchecked")
@@ -120,6 +121,30 @@ public class GameTest {
 		assertEquals(-1, roundResults.getWinningPlayerNum());
 		assertEquals(null, roundResults.getWinningPlayer());
 		assertEquals(null, roundResults.getRoundWinner());
+	}
+	
+	@Test
+	public void shouldNotifyGameEndListener()
+	{
+		Game game = new Game(threeTeams, threeTeams, getDumbProvider());
+		game.start();
+		
+		GameListener listener = createMock(GameListener.class);
+		listener.afterRound(isA(GameRound.class));
+		EasyMock.expectLastCall().anyTimes();
+		listener.beforeRound(isA(GameRound.class));
+		EasyMock.expectLastCall().anyTimes();
+		listener.gameOver();
+		
+		game.addListener(listener);
+		
+		replay(listener);	
+		
+		game.start();
+		game.roundFailed();
+		game.roundFailed();
+		game.roundFailed();
+		verify(listener);
 	}
 	
 	private TaskProvider getDumbProvider()
