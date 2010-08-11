@@ -35,6 +35,9 @@ public class MainView extends Composite {
 	@UiField
 	PushButton lbConcept;
 	
+	@UiField
+	PushButton lbCurrentPlayer;
+	
 	TeamSelector teamSelector;
 
 	public MainView(final Game game) {
@@ -45,7 +48,8 @@ public class MainView extends Composite {
 			@Override
 			public void beforeRound(GameRound round) {
 				lbConcept.setText(game.getCurrentTask().getConcept());
-				lbType.setText(game.getCurrentTask().getType().toString());				
+				lbType.setText(game.getCurrentTask().getType().toString());
+				lbCurrentPlayer.setText(game.getCurrentPlayer() + "("+game.getCurrentTeam()+")");
 			}
 			
 			@Override
@@ -85,6 +89,6 @@ public class MainView extends Composite {
 	
 	@UiHandler("btnFailed")
 	void onFail(ClickEvent e) {
-		game.roundWon(-1, -1);
+		game.roundFailed();
 	}
 }

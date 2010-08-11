@@ -22,6 +22,9 @@
 					<g:PushButton ui:field="btnTimer" text="Pause" width="50px"/>
 				</g:HorizontalPanel>
 				<g:HorizontalPanel>
+					<g:PushButton ui:field="lbCurrentPlayer" width="110px"/> 
+				</g:HorizontalPanel>
+				<g:HorizontalPanel>
 					<g:PushButton ui:field="btnFailed" text="Failed" width="50px"/>
 					<g:PushButton ui:field="btnGuessed" text="Guessed" width="50px"/>
 				</g:HorizontalPanel>

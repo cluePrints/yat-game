@@ -94,10 +94,32 @@ public class GameTest {
 		GameRound roundResults = afterCapture.getValue();
 		assertEquals(2, roundResults.getWinningPlayerNum());
 		assertEquals("player23", roundResults.getWinningPlayer().getName());
-		assertEquals("team2", roundResults.getRoundWinner().getName());
+		assertEquals("team2", roundResults.getRoundWinner().getName());		
+	}
+	
+	@Test
+	public void shouldStartNextMoveOnFailure()
+	{
+		Game game = new Game(threeTeams, threeTeams, getDumbProvider());
+		game.start();
 		
+		Capture<GameRound> afterCapture = new Capture<GameRound>();
 		
+		GameListener listener = createMock(GameListener.class);
+		checkOrder(listener, true);
+		listener.afterRound(capture(afterCapture));
+		listener.beforeRound(isA(GameRound.class));
 		
+		game.addListener(listener);
+		
+		replay(listener);		
+		game.roundFailed();
+		verify(listener);
+		
+		GameRound roundResults = afterCapture.getValue();
+		assertEquals(-1, roundResults.getWinningPlayerNum());
+		assertEquals(null, roundResults.getWinningPlayer());
+		assertEquals(null, roundResults.getRoundWinner());
 	}
 	
 	private TaskProvider getDumbProvider()
