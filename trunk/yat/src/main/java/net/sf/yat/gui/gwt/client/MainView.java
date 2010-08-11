@@ -11,6 +11,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.PushButton;
@@ -20,7 +21,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class MainView extends Composite {
 
-	private static final int TIME_PER_ROUND = 180;
+	private static final int TIME_PER_ROUND = 15;
 
 	private static MainViewUiBinder uiBinder = GWT
 			.create(MainViewUiBinder.class);
@@ -45,9 +46,19 @@ public class MainView extends Composite {
 	@UiField
 	TextBox tbTimer;
 	
+	@UiField
+	Button btnTimer;
+	
+	@UiField
+	PushButton btnGuessed;
+	
+	@UiField
+	PushButton btnFailed;
+	
 	Timer timer;
 	TeamSelector teamSelector;
 	int timeLeft = TIME_PER_ROUND;
+	boolean timerRunning;
 
 	public MainView(final Game game) {
 		this.game = game;
@@ -60,12 +71,12 @@ public class MainView extends Composite {
 				lbType.setText(game.getCurrentTask().getType().toString());
 				lbCurrentPlayer.setText(game.getCurrentPlayer().toString());
 				timeLeft = TIME_PER_ROUND;
-				tbTimer.setText(String.valueOf(timeLeft));
+				tbTimer.setText(String.valueOf(timeLeft));				
 			}
 			
 			@Override
 			public void gameOver() {
-				timer.cancel();
+				pause();
 				tbTimer.setText("--");
 			}
 		});
@@ -75,19 +86,16 @@ public class MainView extends Composite {
 			public void run() {				
 				if (timeLeft <= 0) {
 					game.roundFailed();
-					if (game.isInProgress()) {
-						timeLeft = TIME_PER_ROUND;
-					} else {
-						// game finished
-						timer.cancel();
-					}
-				}	
-				tbTimer.setText(String.valueOf(timeLeft));
-				timeLeft--;
+					timeLeft = TIME_PER_ROUND;
+				} else {
+					tbTimer.setText(String.valueOf(timeLeft));
+					timeLeft--;
+				}
 			}
 		};
 		
 		timer.scheduleRepeating(1000);
+		timerRunning = true;
 		
 		initWidget(uiBinder.createAndBindUi(this));
 		teamSelector = new TeamSelector();
@@ -96,12 +104,49 @@ public class MainView extends Composite {
 	
 	@UiHandler("btnGuessed")
 	void onGuessed(ClickEvent e) {
+		pause();
 		final PopupPanel panel = new PopupPanel();
 		panel.setSize("150px", "150px");
 		panel.add(teamSelector);
 		panel.setPopupPosition(0, 0);
 		panel.show();
-		teamSelector.reset();
+		addListeners(panel);
+		teamSelector.reset();		
+	}	
+	
+	@UiHandler("btnFailed")
+	void onFail(ClickEvent e) {
+		game.roundFailed();
+	}
+	
+	@UiHandler("btnTimer")
+	void onTimerBtn(ClickEvent e) {
+		if (game.isInProgress()) {
+			if (timerRunning) {
+				pause();
+			} else {
+				unPause();
+			}
+		}
+	}
+
+	private void unPause() {
+		timer.scheduleRepeating(1000);
+		timerRunning = true;
+		btnTimer.setText("Pause");
+		btnGuessed.setEnabled(true);
+		btnFailed.setEnabled(true);
+	}
+
+	private void pause() {
+		timer.cancel();
+		timerRunning = false;
+		btnTimer.setText("Continue");
+		btnFailed.setEnabled(false);
+		btnGuessed.setEnabled(false);
+	}
+	
+	private void addListeners(final PopupPanel panel) {
 		teamSelector.btnCancel.addClickHandler(new ClickHandler() {			
 			@Override
 			public void onClick(ClickEvent event) {
@@ -116,10 +161,12 @@ public class MainView extends Composite {
 				panel.hide();
 			}
 		});
-	}
-	
-	@UiHandler("btnFailed")
-	void onFail(ClickEvent e) {
-		game.roundFailed();
+		
+		teamSelector.btnCancel.addClickHandler(new ClickHandler() {			
+			@Override
+			public void onClick(ClickEvent event) {
+				unPause();				
+			}
+		});
 	}
 }

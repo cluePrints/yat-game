@@ -18,8 +18,8 @@
 					<g:PushButton ui:field="lbConcept"/>
 				</g:HorizontalPanel>
 				<g:HorizontalPanel>
-					<g:TextBox ui:field="tbTimer" text="179" width="50px"/>
-					<g:PushButton ui:field="btnTimer" text="Pause" width="50px"/>
+					<g:TextBox ui:field="tbTimer" width="50px"/>
+					<g:Button ui:field="btnTimer" text="Pause" width="70px"/>
 				</g:HorizontalPanel>
 				<g:HorizontalPanel>
 					<g:PushButton ui:field="lbCurrentPlayer" width="110px"/> 
