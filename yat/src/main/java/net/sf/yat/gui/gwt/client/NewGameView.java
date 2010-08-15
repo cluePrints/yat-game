@@ -66,7 +66,12 @@ public class NewGameView extends Composite {
 			teams.add(new Team(teamPlayers, teamNames.get(i)));
 		}
 		
-		return new Game(teams, teams, new HardCodedTaskDAO());
+		LinkedList<Team> turns = new LinkedList<Team>();
+		for (int i=0; i<5; i++) {
+			turns.addAll(teams);
+		}
+		
+		return new Game(teams, turns, new HardCodedTaskDAO());
 	}
 	
 	
@@ -123,10 +128,10 @@ public class NewGameView extends Composite {
 			public void onClick(ClickEvent event) {
 				ppp.remove(pl);
 			}
-		});
-		
-		btnOk.setEnabled(plTeams.getWidgetCount() > 1 && plTeams.getWidgetCount() <= plPlayers.getWidgetCount());
+		});			
 		
 		ppp.add(pl);
+		
+		btnOk.setEnabled(plTeams.getWidgetCount() > 1 && plTeams.getWidgetCount() <= plPlayers.getWidgetCount());
 	}
 }
