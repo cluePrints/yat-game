@@ -82,8 +82,8 @@ public class Game {
 	 */
 	private void nextMove() {
 		currentTeam = turnsToPlay.poll();
-		currentTask = provider.getTask();
 		currentPlayer = playerTurnStrategy.getPlayer(played, teams);
+		currentTask = provider.getTask(currentPlayer.getDesiredComplexity());		
 		GameRound round = new GameRound(currentTeam, currentTeam.getPlayers().indexOf(currentPlayer), null, -1, currentTask);
 		for (GameListener listener : listeners) {
 			listener.beforeRound(round);

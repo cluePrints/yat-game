@@ -22,7 +22,7 @@ public class TextTaskDAO implements TaskDAO {
 	}
 
 	@Override
-	public Task getTask() {
+	public Task getTask(TaskComplexity c) {
 		BufferedReader reader = null;
 		List<Task> tasks = new LinkedList<Task>();
 		try {
@@ -36,7 +36,11 @@ public class TextTaskDAO implements TaskDAO {
 					int nComplexity = Integer.parseInt(parts[0]);
 					int nType = Integer.parseInt(parts[1]);
 					String concept = parts[2];
+					// TODO: sloppy - resolve by points
 					TaskComplexity compexity = TaskComplexity.values()[nComplexity];
+					if (compexity != c) {
+						continue;
+					}
 					TaskType type = TaskType.values()[nType];
 					
 					Task task = new Task(type, concept, compexity);

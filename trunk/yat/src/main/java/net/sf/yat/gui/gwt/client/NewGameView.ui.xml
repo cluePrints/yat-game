@@ -6,32 +6,40 @@
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:TabLayoutPanel ui:field="mainPanel" barUnit='PX'
+	<g:TabLayoutPanel ui:field="tabs" barUnit='PX'
 		barHeight='30' width="150px" height="150px">
 		<g:tab>
-			<g:header>Teams</g:header>
+			<g:header>0</g:header>
 			<g:VerticalPanel>
 				<g:ScrollPanel height="80px">
-					<g:VerticalPanel ui:field="plTeams"/>
+					<g:VerticalPanel ui:field="plTeams" />
 				</g:ScrollPanel>
 				<g:HorizontalPanel>
-					<g:Button ui:field="btnNewTeam" text="+"/>
+					<g:Button ui:field="btnNewTeam" text="+" />
 				</g:HorizontalPanel>
 			</g:VerticalPanel>
 		</g:tab>
 		<g:tab>
-			<g:header>Players</g:header>
+			<g:header>1</g:header>
 			<g:VerticalPanel>
 				<g:ScrollPanel height="80px">
-					<g:VerticalPanel ui:field="plPlayers"/>
+					<g:VerticalPanel ui:field="plPlayers" />
 				</g:ScrollPanel>
 				<g:HorizontalPanel>
-					<g:Button ui:field="btnNewPlayer" text="+"/>
+					<g:Button ui:field="btnNewPlayer" text="+" />
 				</g:HorizontalPanel>
 			</g:VerticalPanel>
 		</g:tab>
 		<g:tab>
-			<g:header>Go</g:header>
+			<g:header>2</g:header>
+			<g:ScrollPanel height="100px">
+				<g:VerticalPanel width="110px">
+					<g:VerticalPanel ui:field="plPlayerDifficulties" />
+				</g:VerticalPanel>
+			</g:ScrollPanel>
+		</g:tab>
+		<g:tab>
+			<g:header>3</g:header>
 			<g:VerticalPanel>
 				<g:Button ui:field="btnOk">Go!</g:Button>
 			</g:VerticalPanel>

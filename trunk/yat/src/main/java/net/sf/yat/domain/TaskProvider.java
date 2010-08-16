@@ -5,5 +5,5 @@ package net.sf.yat.domain;
  * Separate version is here to make domain package self dependent.
  */
 public interface TaskProvider {
-	public Task getTask();
+	public Task getTask(TaskComplexity c);
 }

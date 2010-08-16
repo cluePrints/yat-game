@@ -150,7 +150,7 @@ public class GameTest {
 	private TaskProvider getDumbProvider()
 	{
 		TaskProvider p = createMock(TaskProvider.class);
-		expect(p.getTask()).andReturn(new Task(null, null, null)).anyTimes();
+		expect(p.getTask(TaskComplexity.NORM)).andReturn(new Task(null, null, TaskComplexity.NORM)).anyTimes();
 		replay(p);
 		return p;
 	}

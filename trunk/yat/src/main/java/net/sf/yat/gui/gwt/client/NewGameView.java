@@ -5,17 +5,25 @@ import java.util.List;
 
 import net.sf.yat.domain.Game;
 import net.sf.yat.domain.Player;
+import net.sf.yat.domain.TaskComplexity;
 import net.sf.yat.domain.Team;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -35,12 +43,53 @@ public class NewGameView extends Composite {
 	VerticalPanel plPlayers;
 	
 	@UiField
+	VerticalPanel plPlayerDifficulties;
+	
+	@UiField
 	Button btnOk;
+	
+	@UiField
+	TabLayoutPanel tabs;
 	
 	public NewGameView() {
 		initWidget(uiBinder.createAndBindUi(this));		
 		onTeamAdd(null);
 		onPlayerAdd(null);
+		
+		tabs.addSelectionHandler(new SelectionHandler<Integer>() {
+			
+			@Override
+			public void onSelection(SelectionEvent<Integer> event) {
+				if (tabs.getSelectedIndex() == 2) {
+					plPlayerDifficulties.clear();
+					for (final Player player : getPlayers()) {				
+						Label label = new Label(player.getName());
+						label.setWidth("50px");
+						final ListBox list = new ListBox();
+						for (TaskComplexity val : TaskComplexity.values()) {
+							if (val.isVisible()) {
+								list.addItem(val.toString());
+								if (player.getDesiredComplexity() == val) {
+									list.setSelectedIndex(list.getItemCount()-1);
+								}
+							}
+						}
+						list.addChangeHandler(new ChangeHandler() {					
+							@Override
+							public void onChange(ChangeEvent event) {
+								TaskComplexity complexity = TaskComplexity.valueOf(list.getItemText(list.getSelectedIndex()));								
+								player.setDesiredComplexity(complexity);
+							}
+						});
+						HorizontalPanel pl = new HorizontalPanel();
+						pl.add(label);
+						pl.add(list);		
+						plPlayerDifficulties.add(pl);
+					}
+				}
+				
+			}
+		});
 	}
 	
 	public Game getGame()
@@ -92,6 +141,8 @@ public class NewGameView extends Composite {
 		addEditor(plPlayers, "Player");
 	}
 	
+		
+	
 	private List<Player> getPlayers()
 	{
 		List<Player> players = new LinkedList<Player>();
@@ -127,11 +178,16 @@ public class NewGameView extends Composite {
 			@Override
 			public void onClick(ClickEvent event) {
 				ppp.remove(pl);
+				updateStartGameState();		
 			}
-		});			
+		});
 		
 		ppp.add(pl);
 		
+		updateStartGameState();
+	}
+
+	private void updateStartGameState() {
 		btnOk.setEnabled(plTeams.getWidgetCount() > 1 && plTeams.getWidgetCount() <= plPlayers.getWidgetCount());
 	}
 }
