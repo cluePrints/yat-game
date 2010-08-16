@@ -5,6 +5,7 @@ package net.sf.yat.domain;
  */
 public class Player {
 	private final String name;
+	private TaskComplexity desiredComplexity = TaskComplexity.NORM;
 
 	public Player(String name) {
 		super();
@@ -13,6 +14,14 @@ public class Player {
 
 	public String getName() {
 		return name;
+	}	
+
+	public TaskComplexity getDesiredComplexity() {
+		return desiredComplexity;
+	}
+
+	public void setDesiredComplexity(TaskComplexity desiredComplexity) {
+		this.desiredComplexity = desiredComplexity;
 	}
 	
 	@Override

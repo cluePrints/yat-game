@@ -15,6 +15,7 @@ public class Entry implements EntryPoint {
 	
 	public void onModuleLoad() {		
 		final PopupPanel panel = new PopupPanel();
+		panel.setTitle("Test");
 		panel.setSize("150px", "150px");
 		final NewGameView newGame = new NewGameView();
 		newGame.btnOk.addClickHandler(new ClickHandler() {			
