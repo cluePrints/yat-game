@@ -19,8 +19,7 @@ import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
-public class MainView extends Composite {
-
+public class MainView extends Composite {	
 	private static final int TIME_PER_ROUND = 15;
 
 	private static MainViewUiBinder uiBinder = GWT
@@ -59,10 +58,11 @@ public class MainView extends Composite {
 	TeamSelector teamSelector;
 	int timeLeft = TIME_PER_ROUND;
 	boolean timerRunning;
+	
+	private Messages locale;
 
-	public MainView(final Game game) {
-		this.game = game;
-		
+	public MainView(final Game game) {		
+		this.game = game;		
 		game.addListener(new GameListenerAdapter() {
 			
 			@Override
@@ -98,6 +98,12 @@ public class MainView extends Composite {
 		timerRunning = true;
 		
 		initWidget(uiBinder.createAndBindUi(this));
+				
+		this.locale = GWT.create(Messages.class);
+		btnTimer.setText(locale.tokenPause());
+		btnGuessed.setText(locale.tokenGuessed());
+		btnFailed.setText(locale.tokenFailed());
+		
 		teamSelector = new TeamSelector();
 		teamSelector.setTeams(game.getTeams());
 	}
@@ -133,7 +139,7 @@ public class MainView extends Composite {
 	private void unPause() {
 		timer.scheduleRepeating(1000);
 		timerRunning = true;
-		btnTimer.setText("Pause");
+		btnTimer.setText(locale.tokenPause());
 		btnGuessed.setEnabled(true);
 		btnFailed.setEnabled(true);
 	}
@@ -141,7 +147,7 @@ public class MainView extends Composite {
 	private void pause() {
 		timer.cancel();
 		timerRunning = false;
-		btnTimer.setText("Continue");
+		btnTimer.setText(locale.tokenContinue());
 		btnFailed.setEnabled(false);
 		btnGuessed.setEnabled(false);
 	}

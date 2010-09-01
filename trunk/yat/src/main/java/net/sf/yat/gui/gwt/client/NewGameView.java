@@ -51,6 +51,8 @@ public class NewGameView extends Composite {
 	@UiField
 	TabLayoutPanel tabs;
 	
+	private Messages locale = GWT.create(Messages.class);
+	
 	public NewGameView() {
 		initWidget(uiBinder.createAndBindUi(this));		
 		onTeamAdd(null);
