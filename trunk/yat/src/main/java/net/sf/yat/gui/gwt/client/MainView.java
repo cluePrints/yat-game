@@ -60,8 +60,35 @@ public class MainView extends Composite {
 	boolean timerRunning;
 	
 	private Messages locale;
+	
+	private NewGameDlgRenderer newGameDlg;
 
-	public MainView(final Game game) {		
+	public MainView() {
+		initWidget(uiBinder.createAndBindUi(this));
+		teamSelector = new TeamSelector();
+		
+		newGameDlg = new NewGameDlgRenderer(this);
+		
+		// timer will be reused across games
+		timer = new Timer() {			
+			@Override
+			public void run() {				
+				if (timeLeft <= 0) {
+					MainView.this.game.roundFailed();
+					timeLeft = TIME_PER_ROUND;
+				} else {
+					tbTimer.setText(String.valueOf(timeLeft));
+					timeLeft--;
+				}
+			}
+		};
+	}
+	
+	public void newGame() {
+		newGameDlg.show();
+	}
+	
+	public void newGame(final Game game){		
 		this.game = game;		
 		game.addListener(new GameListenerAdapter() {
 			
@@ -76,36 +103,29 @@ public class MainView extends Composite {
 			
 			@Override
 			public void gameOver() {
-				pause();
-				tbTimer.setText("--");
+				endGame();
 			}
 		});
 		
-		timer = new Timer() {			
-			@Override
-			public void run() {				
-				if (timeLeft <= 0) {
-					game.roundFailed();
-					timeLeft = TIME_PER_ROUND;
-				} else {
-					tbTimer.setText(String.valueOf(timeLeft));
-					timeLeft--;
-				}
-			}
-		};
-		
 		timer.scheduleRepeating(1000);
 		timerRunning = true;
-		
-		initWidget(uiBinder.createAndBindUi(this));
-				
+						
 		this.locale = GWT.create(Messages.class);
 		btnTimer.setText(locale.tokenPause());
 		btnGuessed.setText(locale.tokenGuessed());
 		btnFailed.setText(locale.tokenFailed());
+		btnFailed.setEnabled(true);
+		btnGuessed.setEnabled(true);
 		
-		teamSelector = new TeamSelector();
+		
 		teamSelector.setTeams(game.getTeams());
+	}
+	
+
+	public void endGame() {
+		pause();
+		btnTimer.setText(locale.tokenNewGame());
+		tbTimer.setText("--");
 	}
 	
 	@UiHandler("btnGuessed")
@@ -133,6 +153,8 @@ public class MainView extends Composite {
 			} else {
 				unPause();
 			}
+		} else {
+			newGameDlg.show();
 		}
 	}
 
