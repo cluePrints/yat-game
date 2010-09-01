@@ -13,24 +13,10 @@ public class Entry implements EntryPoint {
 
 	GameFactory gameFactory = new GameFactory(new HardCodedTaskDAO());
 	
-	public void onModuleLoad() {		
-		final PopupPanel panel = new PopupPanel();
-		panel.setTitle("Test");
-		panel.setSize("150px", "150px");
-		final NewGameView newGame = new NewGameView();
-		newGame.btnOk.addClickHandler(new ClickHandler() {			
-			@Override
-			public void onClick(ClickEvent event) {				
-				Game game = newGame.getGame();
-				MainView view = new MainView(game);
-				RootPanel.get().add(view);
-				game.start();
-				panel.hide();
-			}
-		});
-		panel.add(newGame);
-		panel.setPopupPosition(0, 0);
-		panel.show();
+	public void onModuleLoad() {	
+		MainView view = new MainView();
+		RootPanel.get().add(view);
+		view.newGame();
 	}
 
 }
