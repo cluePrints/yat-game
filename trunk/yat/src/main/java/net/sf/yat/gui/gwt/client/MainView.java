@@ -177,8 +177,9 @@ public class MainView extends Composite {
 	private void addListeners(final PopupPanel panel) {
 		teamSelector.btnCancel.addClickHandler(new ClickHandler() {			
 			@Override
-			public void onClick(ClickEvent event) {
-				panel.hide();				
+			public void onClick(ClickEvent event) {				
+				unPause();
+				panel.hide();
 			}
 		});
 		
@@ -187,13 +188,6 @@ public class MainView extends Composite {
 			public void onClick(ClickEvent event) {
 				game.roundWon(teamSelector.getSelectedTeamNum(), teamSelector.getSelectedPlayerNum());
 				panel.hide();
-			}
-		});
-		
-		teamSelector.btnCancel.addClickHandler(new ClickHandler() {			
-			@Override
-			public void onClick(ClickEvent event) {
-				unPause();				
 			}
 		});
 	}
