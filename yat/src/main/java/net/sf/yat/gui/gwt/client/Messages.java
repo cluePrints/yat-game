@@ -10,4 +10,15 @@ public interface Messages extends Constants{
 	String tokenFailed();
 	String tokenPlayer();
 	String tokenTeam();
+	
+	String tokenVerbal();
+	String tokenDraw();
+	String tokenHandplay();
+	
+	String difficultyLow();
+	String difficultyMedium();
+	String difficultyHigh();
+	
+	String ok();
+	String cancel();
 }
