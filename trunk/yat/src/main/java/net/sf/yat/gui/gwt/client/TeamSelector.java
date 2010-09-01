@@ -12,6 +12,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -26,6 +27,12 @@ public class TeamSelector extends Composite {
 	private List<Team> teams;
 
 	@UiField
+	Label lbPlayer;
+	
+	@UiField
+	Label lbTeam;
+	
+	@UiField
 	Button btnOk;
 	
 	@UiField
@@ -36,9 +43,15 @@ public class TeamSelector extends Composite {
 	
 	@UiField
 	ListBox lstPlayers;
+	
+	private Messages locale = GWT.create(Messages.class);
 
 	public TeamSelector() {
 		initWidget(uiBinder.createAndBindUi(this));
+		btnOk.setText(locale.ok());
+		btnCancel.setText(locale.cancel());
+		lbPlayer.setText(locale.tokenPlayer());
+		lbTeam.setText(locale.tokenTeam());
 	}	
 	
 	public void setTeams(List<Team> teams) {

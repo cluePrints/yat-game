@@ -3,16 +3,16 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
 	<g:VerticalPanel>
 		<g:HorizontalPanel>
-			<g:Label text="Team:"/>
+			<g:Label ui:field="lbTeam"/>
 			<g:ListBox ui:field="lstTeams" width="90px"/>
 		</g:HorizontalPanel>
 		<g:HorizontalPanel>
-			<g:Label text="Player:"/>
+			<g:Label ui:field="lbPlayer"/>
 			<g:ListBox ui:field="lstPlayers" width="90px"/>
 		</g:HorizontalPanel>		
 		<g:HorizontalPanel>
-			<g:Button ui:field="btnOk" text="OK"/>
-			<g:Button ui:field="btnCancel" text="Cancel"/>
+			<g:Button ui:field="btnOk"/>
+			<g:Button ui:field="btnCancel"/>
 		</g:HorizontalPanel>
 	</g:VerticalPanel>
 </ui:UiBinder> 

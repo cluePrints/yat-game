@@ -60,6 +60,7 @@ public class MainView extends Composite {
 	boolean timerRunning;
 	
 	private Messages locale;
+	private Translator translator;
 	
 	private NewGameDlgRenderer newGameDlg;
 
@@ -95,7 +96,7 @@ public class MainView extends Composite {
 			@Override
 			public void beforeRound(GameRound round) {
 				lbConcept.setText(game.getCurrentTask().getConcept());
-				lbType.setText(game.getCurrentTask().getType().toString());
+				lbType.setText(translator.toString(game.getCurrentTask().getType()));
 				lbCurrentPlayer.setText(game.getCurrentPlayer().toString());
 				timeLeft = TIME_PER_ROUND;
 				tbTimer.setText(String.valueOf(timeLeft));				
@@ -111,6 +112,8 @@ public class MainView extends Composite {
 		timerRunning = true;
 						
 		this.locale = GWT.create(Messages.class);
+		this.translator = new Translator(locale);
+		
 		btnTimer.setText(locale.tokenPause());
 		btnGuessed.setText(locale.tokenGuessed());
 		btnFailed.setText(locale.tokenFailed());

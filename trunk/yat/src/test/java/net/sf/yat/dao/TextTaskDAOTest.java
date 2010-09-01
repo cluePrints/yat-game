@@ -29,6 +29,6 @@ public class TextTaskDAOTest {
 	
 	@Test
 	public void shoudReturnTaskOfDesiredComplexity() {
-		assertEquals(TaskComplexity.FOR_LINUX_FAN, dao.getTask(TaskComplexity.FOR_LINUX_FAN).getComplexity()); 
+		assertEquals(TaskComplexity.HIGH, dao.getTask(TaskComplexity.HIGH).getComplexity()); 
 	}
 }

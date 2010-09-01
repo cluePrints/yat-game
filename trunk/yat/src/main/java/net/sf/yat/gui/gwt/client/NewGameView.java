@@ -52,6 +52,7 @@ public class NewGameView extends Composite {
 	TabLayoutPanel tabs;
 	
 	private Messages locale = GWT.create(Messages.class);
+	private Translator translator = new Translator(locale);
 	
 	public NewGameView() {
 		initWidget(uiBinder.createAndBindUi(this));		
@@ -70,7 +71,7 @@ public class NewGameView extends Composite {
 						final ListBox list = new ListBox();
 						for (TaskComplexity val : TaskComplexity.values()) {
 							if (val.isVisible()) {
-								list.addItem(val.toString());
+								list.addItem(translator.toString(val));
 								if (player.getDesiredComplexity() == val) {
 									list.setSelectedIndex(list.getItemCount()-1);
 								}
@@ -134,13 +135,13 @@ public class NewGameView extends Composite {
 	@UiHandler("btnNewTeam")
 	void onTeamAdd(ClickEvent evt)
 	{
-		addEditor(plTeams, "Team");
+		addEditor(plTeams, locale.tokenTeam());
 	}
 	
 	@UiHandler("btnNewPlayer")
 	void onPlayerAdd(ClickEvent evt)
 	{
-		addEditor(plPlayers, "Player");
+		addEditor(plPlayers, locale.tokenPlayer());
 	}
 	
 		
