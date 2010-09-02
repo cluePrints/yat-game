@@ -37,6 +37,7 @@
 		<g:tab>
 			<g:header>Stuff</g:header>
 			<g:VerticalPanel>
+				<g:PushButton ui:field="btnNewGame"/>
 				<g:HorizontalPanel>
 					<g:Label>Game mode:</g:Label>
 					<g:RadioButton name="gameMode" text="all"/>
