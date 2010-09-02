@@ -25,11 +25,11 @@ public class TurnsToPlayListModel extends AbstractListModel{
 	
 	@Override
 	public int getSize() {	
-		return game.getTurnsToPlay().size();
+		return 5;
 	}
 	
 	@Override
 	public Object getElementAt(int index) {
-		return game.getTurnsToPlay().get(index);
+		return "Not implemented";
 	}
 }
