@@ -112,8 +112,8 @@ public class NewGameView extends Composite {
 		// Gui default state
 		rbModePoints.setValue(true, true);
 		onModePoints(null);
-		onTeamAdd(null);
-		onTeamAdd(null);
+		addTeamEditor();
+		addTeamEditor();
 		onPlayerAdd(null);
 		onPlayerAdd(null);
 		onPlayerAdd(null);
@@ -219,13 +219,45 @@ public class NewGameView extends Composite {
 	@UiHandler("btnNewTeam")
 	void onTeamAdd(ClickEvent evt)
 	{
-		addEditor(plTeams, locale.tokenTeam());
+		addTeamEditor();
 	}
 	
+	private List<ColorListBox> teamBoxes = new LinkedList<ColorListBox>();
+	private List<ColorListBox> playerBoxes = new LinkedList<ColorListBox>();
+
+	private void addTeamEditor() {
+		final ColorListBox box = addEditor(plTeams, locale.tokenTeam(), teamBoxes, true);		
+		box.addClickHandler(new ClickHandler() {			
+			@Override
+			public void onClick(ClickEvent event) {
+				revokeColorFromOtherBoxes(box, teamBoxes);
+			}
+		});
+	}
+	
+	private void revokeColorFromOtherBoxes(ColorListBox originator, List<ColorListBox> boxes)
+	{		
+		for (ColorListBox box : boxes) {
+			if (originator.getColor() != null && originator.getColor().equals(box.getColor()) && box != originator) {
+				box.setColor(getUnusedColors(boxes).getFirst());
+			}
+		}
+	}
+	
+	private LinkedList<String> getUnusedColors(List<ColorListBox> boxes) {
+		LinkedList<String> allowedColors = ColorListBox.getAllColors();
+		for (ColorListBox box : boxes) {
+			if (box.getColor() != null) {
+				allowedColors.remove(box.getColor());
+			}
+		}
+		
+		return allowedColors;
+	}
 	@UiHandler("btnNewPlayer")
 	void onPlayerAdd(ClickEvent evt)
 	{
-		addEditor(plPlayers, locale.tokenPlayer());
+		addEditor(plPlayers, locale.tokenPlayer(), playerBoxes, false);
 	}	
 	
 	private List<Player> getPlayers()
@@ -254,26 +286,34 @@ public class NewGameView extends Composite {
 		return teams;
 	}
 
-	private void addEditor(final VerticalPanel ppp, String obj) {
+	private ColorListBox addEditor(final VerticalPanel ppp, String obj, final List<ColorListBox> boxes, boolean keepUnique) {
 		TextBox tb = new TextBox();
 		tb.setWidth("80%");
 		tb.setText(obj+"#"+(ppp.getWidgetCount()+1));
 		Button btn = new Button("x");
+		final ColorListBox lb = new ColorListBox(!keepUnique);
 		final HorizontalPanel pl = new HorizontalPanel();
 		pl.add(tb);
-		pl.add(btn);
+		pl.add(lb);
+		pl.add(btn);		
 		
 		btn.addClickHandler(new ClickHandler() {			
 			@Override
 			public void onClick(ClickEvent event) {
 				ppp.remove(pl);
-				updateStartGameState();		
+				updateStartGameState();
+				boxes.remove(lb);
 			}
 		});
 		
 		ppp.add(pl);
-		
+		if (keepUnique) {
+			lb.setColor(getUnusedColors(boxes).getFirst());
+		}
 		updateStartGameState();
+		
+		boxes.add(lb);
+		return lb;
 	}
 
 	private void updateStartGameState() {
