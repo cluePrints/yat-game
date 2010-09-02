@@ -1,0 +1,11 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+		.gwt-color-picker-button {
+		}
+	</ui:style>
+	<g:HorizontalPanel>
+		<g:PushButton ui:field="btn" width="10px" addStyleNames="gwt-color-picker-button"/>
+	</g:HorizontalPanel>	
+</ui:UiBinder> 
