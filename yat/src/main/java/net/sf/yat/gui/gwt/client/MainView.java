@@ -52,6 +52,9 @@ public class MainView extends Composite {
 	PushButton btnGuessed;
 	
 	@UiField
+	PushButton btnNewGame;
+	
+	@UiField
 	PushButton btnFailed;
 	
 	Timer timer;
@@ -86,6 +89,7 @@ public class MainView extends Composite {
 	}
 	
 	public void newGame() {
+		mainPanel.selectTab(0);
 		newGameDlg.show();
 	}
 	
@@ -117,9 +121,9 @@ public class MainView extends Composite {
 		btnTimer.setText(locale.tokenPause());
 		btnGuessed.setText(locale.tokenGuessed());
 		btnFailed.setText(locale.tokenFailed());
+		btnNewGame.setText(locale.tokenNewGame());
 		btnFailed.setEnabled(true);
-		btnGuessed.setEnabled(true);
-		
+		btnGuessed.setEnabled(true);		
 		
 		teamSelector.setTeams(game.getTeams());
 	}
@@ -129,6 +133,12 @@ public class MainView extends Composite {
 		pause();
 		btnTimer.setText(locale.tokenNewGame());
 		tbTimer.setText("--");
+	}
+
+	@UiHandler("btnNewGame")
+	void onNewGame(ClickEvent e) {
+		pause();
+		newGame();
 	}
 	
 	@UiHandler("btnGuessed")
@@ -157,7 +167,7 @@ public class MainView extends Composite {
 				unPause();
 			}
 		} else {
-			newGameDlg.show();
+			newGame();
 		}
 	}
 	
