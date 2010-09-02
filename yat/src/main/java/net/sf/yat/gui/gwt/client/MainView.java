@@ -126,6 +126,8 @@ public class MainView extends Composite {
 		btnGuessed.setEnabled(true);		
 		
 		teamSelector.setTeams(game.getTeams());
+		
+		pause();
 	}
 	
 
@@ -155,18 +157,21 @@ public class MainView extends Composite {
 	
 	@UiHandler("btnFailed")
 	void onFail(ClickEvent e) {
+		pause();
 		game.roundFailed();
 	}
 	
 	@UiHandler("btnTimer")
 	void onTimerBtn(ClickEvent e) {
 		if (game.isInProgress()) {
+			// start/stop timer if game is in progress
 			if (timerRunning) {
 				pause();
 			} else {
 				unPause();
 			}
 		} else {
+			// otherwise this button is used for starting new game
 			newGame();
 		}
 	}

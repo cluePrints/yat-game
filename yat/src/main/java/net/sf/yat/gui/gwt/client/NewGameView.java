@@ -116,6 +116,7 @@ public class NewGameView extends Composite {
 		onTeamAdd(null);
 		onPlayerAdd(null);
 		onPlayerAdd(null);
+		onPlayerAdd(null);
 		
 		tabs.addSelectionHandler(new SelectionHandler<Integer>() {
 			
