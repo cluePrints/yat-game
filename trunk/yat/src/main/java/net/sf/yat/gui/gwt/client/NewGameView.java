@@ -7,6 +7,7 @@ import net.sf.yat.domain.Game;
 import net.sf.yat.domain.Player;
 import net.sf.yat.domain.TaskComplexity;
 import net.sf.yat.domain.Team;
+import net.sf.yat.domain.TotalGamesPlayedCriteria;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -118,12 +119,7 @@ public class NewGameView extends Composite {
 			teams.add(new Team(teamPlayers, teamNames.get(i)));
 		}
 		
-		LinkedList<Team> turns = new LinkedList<Team>();
-		for (int i=0; i<5; i++) {
-			turns.addAll(teams);
-		}
-		
-		return new Game(teams, turns, new HardCodedTaskDAO());
+		return new Game(teams, new TotalGamesPlayedCriteria(teams.size()*3), new HardCodedTaskDAO());
 	}
 	
 	

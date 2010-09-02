@@ -15,24 +15,26 @@ import java.util.Map;
  */
 public class Game {
 	private final List<Team> teams;
-	private List<GameRound> played;
-	private LinkedList<Team> turnsToPlay;
+	private LinkedList<GameRound> played;
 	private TaskProvider provider;
 	private Team currentTeam;
 	private Task currentTask;
 	private Player currentPlayer;
 	private List<GameListener> listeners = new LinkedList<GameListener>();
 	private PlayerTurnStrategy playerTurnStrategy = new PlayerTurnStrategy();
+	private TeamTurnStrategy teamTurnStrategy = new TeamTurnStrategy();
+	private EndGameCriteria gameOverCriteria;
 
 	public boolean isDone() {
-		return getTurnsToPlay().isEmpty();
+		return gameOverCriteria.wasGameOver(this) && !isInProgress();
 	}
 
 	/**
 	 * Game is started and not finished yet
 	 */
 	public boolean isInProgress() {
-		return !turnsToPlay.isEmpty() && currentTask != null
+		return !gameOverCriteria.wasGameOver(this) // game was not over
+				&& currentTask != null 			   // and was actually started
 				&& currentTeam != null;
 	}
 
@@ -65,10 +67,12 @@ public class Game {
 				listener.afterRound(round);
 			}
 			nextMove();
-		} else {
-			for (GameListener listener : listeners) {
-				listener.gameOver();
-			}
+		}
+	}
+
+	private void dispatchGameOver() {
+		for (GameListener listener : listeners) {
+			listener.gameOver();
 		}
 	}
 
@@ -81,12 +85,17 @@ public class Game {
 	 * Set up new round and trigger event listeners
 	 */
 	private void nextMove() {
-		currentTeam = turnsToPlay.poll();
-		currentPlayer = playerTurnStrategy.getPlayer(played, teams);
-		currentTask = provider.getTask(currentPlayer.getDesiredComplexity());		
-		GameRound round = new GameRound(currentTeam, currentTeam.getPlayers().indexOf(currentPlayer), null, -1, currentTask);
-		for (GameListener listener : listeners) {
-			listener.beforeRound(round);
+		if (isDone()) {
+			dispatchGameOver();
+			
+		} else {
+			currentTeam = teamTurnStrategy.getTeam(played, teams);
+			currentPlayer = playerTurnStrategy.getPlayer(played, teams);
+			currentTask = provider.getTask(currentPlayer.getDesiredComplexity());		
+			GameRound round = new GameRound(currentTeam, currentTeam.getPlayers().indexOf(currentPlayer), null, -1, currentTask);
+			for (GameListener listener : listeners) {
+				listener.beforeRound(round);
+			}
 		}
 	}
 
@@ -131,11 +140,11 @@ public class Game {
 	
 	// ==================================================================
 	// Constructor & getter methods - not really interesting stuff
-	public Game(List<Team> teams, LinkedList<Team> turnsToPlay,
+	public Game(List<Team> teams, EndGameCriteria gameOverCriteria,
 			TaskProvider provider) {
 		super();
 		this.teams = new LinkedList<Team>(teams);
-		this.turnsToPlay = new LinkedList<Team>(turnsToPlay);
+		this.gameOverCriteria = gameOverCriteria;
 		this.played = new LinkedList<GameRound>();
 		this.provider = provider;
 	}
@@ -166,13 +175,5 @@ public class Game {
 
 	public List<GameRound> getPlayed() {
 		return played;
-	}
-
-	public void setPlayed(List<GameRound> played) {
-		this.played = played;
-	}
-
-	public LinkedList<Team> getTurnsToPlay() {
-		return turnsToPlay;
 	}
 }

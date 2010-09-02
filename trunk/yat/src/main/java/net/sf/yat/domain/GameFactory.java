@@ -9,6 +9,7 @@ public class GameFactory {
 		super();
 		this.taskProvider = taskProvider;
 	}
+	
 	public Game generateGame(int teamNum, int playersNum, int gamesNum) {
 		List<Team> teams = new LinkedList<Team>();
 		for (int j = 1; j <= teamNum; j++) {
@@ -19,12 +20,8 @@ public class GameFactory {
 			Team team = new Team(players, "Team #" + j);
 			teams.add(team);
 		}
-
-		LinkedList<Team> turnsToPlay = new LinkedList<Team>();
-		for (int i = 0; i < gamesNum; i++) {
-			turnsToPlay.addAll(teams);
-		}
-		Game game = new Game(teams, turnsToPlay, taskProvider);
+		
+		Game game = new Game(teams, new TotalGamesPlayedCriteria(gamesNum * teamNum), taskProvider);
 		return game;
 	}
 }

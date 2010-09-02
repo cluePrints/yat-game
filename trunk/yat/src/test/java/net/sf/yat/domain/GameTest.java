@@ -17,10 +17,10 @@ public class GameTest {
 	Team team3 = new Team(Arrays.asList(new Player("player13")), "team3");
 	final LinkedList<Team> threeTeams = new LinkedList<Team>(Arrays.asList(team1, team2, team3));
 		
-	@Test
+	// TODO: think if this case is realistic
 	public void shouldBeDoneIfNoGamesLeftNotStartedInitially()
 	{
-		Game game = new Game(new LinkedList(), new LinkedList(), null);
+		Game game = new Game(new LinkedList(), new TotalGamesPlayedCriteria(3), null);
 		assertTrue(game.isDone());
 	}
 	
@@ -28,14 +28,14 @@ public class GameTest {
 	public void shouldBeNotStartedInitially()
 	{
 		
-		Game game = new Game(threeTeams, threeTeams , null);
+		Game game = new Game(threeTeams, new TotalGamesPlayedCriteria(3) , null);
 		assertTrue(!game.isInProgress());
 	}
 	
 	@Test
 	public void shouldBeInProgressAfterBeingStarted()
 	{		
-		Game game = new Game(threeTeams, threeTeams, getDumbProvider());
+		Game game = new Game(threeTeams, new TotalGamesPlayedCriteria(3), getDumbProvider());
 		game.start();
 		assertTrue(game.isInProgress());
 		assertNotNull(game.getCurrentTeam());
@@ -44,7 +44,7 @@ public class GameTest {
 	@Test
 	public void shouldNotStartTwoTimes()
 	{		
-		Game game = new Game(threeTeams, threeTeams, getDumbProvider());
+		Game game = new Game(threeTeams, new TotalGamesPlayedCriteria(3), getDumbProvider());
 		game.start();
 		Team team = game.getCurrentTeam();
 		game.start();
@@ -56,7 +56,7 @@ public class GameTest {
 	@Test
 	public void shouldInvokeBeforeRoundOnStart()
 	{
-		Game game = new Game(threeTeams, threeTeams, getDumbProvider());
+		Game game = new Game(threeTeams, new TotalGamesPlayedCriteria(3), getDumbProvider());
 		GameListener listener = createMock(GameListener.class);
 		Capture<GameRound> beforeCapture = new Capture<GameRound>();
 		listener.beforeRound(capture(beforeCapture));
@@ -75,7 +75,7 @@ public class GameTest {
 	@Test
 	public void shouldInvokeListenerAfterRoundWasWon()
 	{
-		Game game = new Game(threeTeams, threeTeams, getDumbProvider());
+		Game game = new Game(threeTeams, new TotalGamesPlayedCriteria(3), getDumbProvider());
 		game.start();
 		
 		Capture<GameRound> afterCapture = new Capture<GameRound>();		
@@ -101,7 +101,7 @@ public class GameTest {
 	@Test
 	public void shouldStartNextMoveOnFailure()
 	{
-		Game game = new Game(threeTeams, threeTeams, getDumbProvider());
+		Game game = new Game(threeTeams, new TotalGamesPlayedCriteria(3), getDumbProvider());
 		game.start();
 		
 		Capture<GameRound> afterCapture = new Capture<GameRound>();
@@ -126,7 +126,7 @@ public class GameTest {
 	@Test
 	public void shouldNotifyGameEndListener()
 	{
-		Game game = new Game(threeTeams, threeTeams, getDumbProvider());
+		Game game = new Game(threeTeams, new TotalGamesPlayedCriteria(3), getDumbProvider());
 		game.start();
 		
 		GameListener listener = createMock(GameListener.class);
