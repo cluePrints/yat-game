@@ -21,4 +21,7 @@ public interface Messages extends Constants{
 	
 	String ok();
 	String cancel();
+	
+	String modeGamesPlayed();
+	String modePointsScored();
 }

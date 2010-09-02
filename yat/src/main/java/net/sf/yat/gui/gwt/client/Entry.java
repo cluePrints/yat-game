@@ -12,6 +12,7 @@ public class Entry implements EntryPoint {
 	public void onModuleLoad() {	
 		MainView view = new MainView();
 		RootPanel.get().add(view);
+		view.setNewGameDlg(new NewGameDlgRenderer(view, gameFactory));
 		view.newGame();
 	}
 

@@ -34,7 +34,7 @@ public class GameGui extends JFrame {
 	GameFactory gameFactory = new GameFactory(new TextTaskDAO("tasks"));
 	
 	public GameGui() {
-		final Game game = gameFactory.generateGame(5, 5, 3);
+		final Game game = null;
 		setLayout(new GridLayout(2, 2));
 		JPanel topLeftPanel = new JPanel();
 		topLeftPanel.setLayout(new GridLayout(1, 2));
