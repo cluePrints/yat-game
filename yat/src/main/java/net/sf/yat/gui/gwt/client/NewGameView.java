@@ -35,6 +35,10 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class NewGameView extends Composite {
 
+	private static final int TAB_PLAY = 4;
+
+	private static final int TAB_DIFFICULTY = 2;
+
 	private static final int MODE_POINTS = 1;
 
 	private static final int MODE_GAMES = 0;
@@ -101,17 +105,23 @@ public class NewGameView extends Composite {
 			}
 		});
 		
+		
 		rbModePoints.setText(locale.modePointsScored());
 		rbModeGames.setText(locale.modeGamesPlayed());
 		
+		// Gui default state
+		rbModePoints.setValue(true, true);
+		onModePoints(null);
 		onTeamAdd(null);
+		onTeamAdd(null);
+		onPlayerAdd(null);
 		onPlayerAdd(null);
 		
 		tabs.addSelectionHandler(new SelectionHandler<Integer>() {
 			
 			@Override
 			public void onSelection(SelectionEvent<Integer> event) {
-				if (tabs.getSelectedIndex() == 2) {
+				if (tabs.getSelectedIndex() == TAB_DIFFICULTY || tabs.getSelectedIndex() == TAB_PLAY) {
 					plPlayerDifficulties.clear();
 					playerDesiredComplexity = new LinkedList<TaskComplexity>();
 					int num = 0;
@@ -215,9 +225,7 @@ public class NewGameView extends Composite {
 	void onPlayerAdd(ClickEvent evt)
 	{
 		addEditor(plPlayers, locale.tokenPlayer());
-	}
-	
-		
+	}	
 	
 	private List<Player> getPlayers()
 	{
