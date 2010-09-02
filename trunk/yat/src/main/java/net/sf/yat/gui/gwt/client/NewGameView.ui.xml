@@ -41,6 +41,15 @@
 		<g:tab>
 			<g:header>3</g:header>
 			<g:VerticalPanel>
+				<g:RadioButton ui:field="rbModePoints" name="gameMode"/>				
+				<g:RadioButton ui:field="rbModeGames" name="gameMode"/>
+				<!-- g:RadioButton ui:field="rbModeTime" name="gameMode" text="Time spent:"/-->
+				<g:TextBox ui:field="tbModeLimit" width="50px" text="50"/>
+			</g:VerticalPanel>
+		</g:tab>
+		<g:tab>
+			<g:header>4</g:header>
+			<g:VerticalPanel>
 				<g:Button ui:field="btnOk">Go!</g:Button>
 			</g:VerticalPanel>
 		</g:tab>

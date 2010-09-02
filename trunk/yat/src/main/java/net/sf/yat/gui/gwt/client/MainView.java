@@ -66,9 +66,9 @@ public class MainView extends Composite {
 
 	public MainView() {
 		initWidget(uiBinder.createAndBindUi(this));
-		teamSelector = new TeamSelector();
 		
-		newGameDlg = new NewGameDlgRenderer(this);
+		// TODO: IoC
+		teamSelector = new TeamSelector();				
 		
 		// timer will be reused across games
 		timer = new Timer() {			
@@ -159,6 +159,10 @@ public class MainView extends Composite {
 		} else {
 			newGameDlg.show();
 		}
+	}
+	
+	public void setNewGameDlg(NewGameDlgRenderer newGameDlg) {
+		this.newGameDlg = newGameDlg;
 	}
 
 	private void unPause() {

@@ -113,9 +113,11 @@ public class Game {
 		List<GameRound> played = getPlayed();
 		for (GameRound round : played) {
 			Team winner = round.getRoundWinner();
-			Integer initial = scores.get(winner);
-			int wonPoints = round.getTask().getPoints();
-			scores.put(winner, initial + wonPoints);
+			if (winner != null) {
+				Integer initial = scores.get(winner);
+				int wonPoints = round.getTask().getPoints();
+				scores.put(winner, initial + wonPoints);
+			}
 		}
 
 		// transform results to a list of pairs
