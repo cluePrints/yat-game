@@ -35,8 +35,6 @@ public class ColorListBox extends Composite implements HasClickHandlers {
 	
 	String currentColor;
 	boolean nullAllowed;
-	
-	private static PopupPanel currentPopup;
 
 	public ColorListBox(boolean nullAllowed) {
 		this.nullAllowed = nullAllowed;
@@ -67,11 +65,8 @@ public class ColorListBox extends Composite implements HasClickHandlers {
 	@UiHandler(value="btn")
 	void onClick(ClickEvent evt) 
 	{
-		if (currentPopup != null) {
-			currentPopup.hide();
-		}
-		currentPopup = new PopupPanel();
-		final PopupPanel popUp = currentPopup;
+		final PopupPanel popUp = new PopupPanel();
+		popUp.setAutoHideEnabled(true);
 		VerticalPanel vPanel = new VerticalPanel();
 		if (nullAllowed) {
 			Anchor a = new Anchor();
@@ -83,12 +78,10 @@ public class ColorListBox extends Composite implements HasClickHandlers {
 					popUp.hide();
 					setColor(null);
 					manager.fireEvent(event);
-					currentPopup = null;
 				}
 			});
 		}
 		
-		// TODO: add timer stuff/something other to hide the box
 		for (String color : colors) {
 			final String fColor = color;
 			Anchor btn1 = new Anchor();
@@ -99,7 +92,6 @@ public class ColorListBox extends Composite implements HasClickHandlers {
 					popUp.hide();
 					setColor(fColor);
 					manager.fireEvent(event);
-					currentPopup = null;
 				}
 			});
 			vPanel.add(btn1);
