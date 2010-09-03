@@ -78,7 +78,7 @@ public class NewGameView extends Composite {
 	private GameFactory gameFactory;
 	private int gameMode=0;
 	
-	private List<TaskComplexity> playerDesiredComplexity;
+	private List<TaskComplexity> playerDesiredComplexity = new LinkedList<TaskComplexity>();
 	
 	public NewGameView(GameFactory gameFactory) {
 		this.gameFactory = gameFactory;
@@ -122,11 +122,12 @@ public class NewGameView extends Composite {
 			
 			@Override
 			public void onSelection(SelectionEvent<Integer> event) {
-				if (tabs.getSelectedIndex() == TAB_DIFFICULTY || tabs.getSelectedIndex() == TAB_PLAY) {
+				if (tabs.getSelectedIndex() == TAB_DIFFICULTY || tabs.getSelectedIndex() == TAB_PLAY) {					
+					int num = 0;
+					List<Player> players = getPlayers();
 					plPlayerDifficulties.clear();
 					playerDesiredComplexity = new LinkedList<TaskComplexity>();
-					int num = 0;
-					for (final Player player : getPlayers()) {				
+					for (final Player player : players) {				
 						Label label = new Label(player.getName());
 						label.setWidth("50px");
 						final ListBox list = new ListBox();
@@ -138,8 +139,7 @@ public class NewGameView extends Composite {
 									list.setSelectedIndex(list.getItemCount()-1);
 								}
 							}
-						}
-						
+						}						
 						
 						// TODO: ugly
 						final int fNum = num;
