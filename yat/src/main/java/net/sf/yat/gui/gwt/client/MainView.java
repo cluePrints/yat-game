@@ -79,6 +79,7 @@ public class MainView extends Composite {
 			public void run() {				
 				if (timeLeft <= 0) {
 					MainView.this.game.roundFailed();
+					pause();
 					timeLeft = TIME_PER_ROUND;
 				} else {
 					tbTimer.setText(String.valueOf(timeLeft));
