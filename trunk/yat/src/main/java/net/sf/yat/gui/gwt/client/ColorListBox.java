@@ -49,6 +49,9 @@ public class ColorListBox extends Composite implements HasClickHandlers {
 	
 	public void setAllowedColors(List<String> colors) {
 		this.colors = colors;
+		if (!colors.contains(currentColor)) {
+			setColor(null);
+		}
 	}
 	
 	public void setColor(String color) 
