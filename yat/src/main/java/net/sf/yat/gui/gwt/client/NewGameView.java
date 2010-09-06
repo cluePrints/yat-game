@@ -1,7 +1,10 @@
 package net.sf.yat.gui.gwt.client;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import net.sf.yat.domain.EndGameCriteria;
 import net.sf.yat.domain.Game;
@@ -219,7 +222,7 @@ public class NewGameView extends Composite {
 	@UiHandler("btnNewTeam")
 	void onTeamAdd(ClickEvent evt)
 	{
-		addTeamEditor();
+		addTeamEditor();		
 	}
 	
 	private List<ColorListBox> teamBoxes = new LinkedList<ColorListBox>();
@@ -231,8 +234,18 @@ public class NewGameView extends Composite {
 			@Override
 			public void onClick(ClickEvent event) {
 				revokeColorFromOtherBoxes(box, teamBoxes);
+				allowOnlyUsedColors(teamBoxes, playerBoxes);
 			}
 		});
+		allowOnlyUsedColors(teamBoxes, playerBoxes);
+	}
+	
+	private void allowOnlyUsedColors(List<ColorListBox> src, List<ColorListBox> dest)
+	{
+		List<String> used = getUsedColors(src);
+		for (ColorListBox box : dest) {
+			box.setAllowedColors(used);
+		}
 	}
 	
 	private void revokeColorFromOtherBoxes(ColorListBox originator, List<ColorListBox> boxes)
@@ -242,6 +255,17 @@ public class NewGameView extends Composite {
 				box.setColor(getUnusedColors(boxes).getFirst());
 			}
 		}
+	}
+	
+	private List<String> getUsedColors(List<ColorListBox> boxes) {
+		Set<String> allowedColors = new TreeSet<String>();
+		for (ColorListBox box : boxes) {
+			if (box.getColor() != null) {
+				allowedColors.add(box.getColor());
+			}
+		}
+		
+		return new LinkedList<String>(allowedColors);
 	}
 	
 	private LinkedList<String> getUnusedColors(List<ColorListBox> boxes) {
@@ -254,10 +278,12 @@ public class NewGameView extends Composite {
 		
 		return allowedColors;
 	}
+	
 	@UiHandler("btnNewPlayer")
 	void onPlayerAdd(ClickEvent evt)
 	{
-		addEditor(plPlayers, locale.tokenPlayer(), playerBoxes, false);
+		ColorListBox box = addEditor(plPlayers, locale.tokenPlayer(), playerBoxes, false);
+		allowOnlyUsedColors(teamBoxes, Collections.singletonList(box));
 	}	
 	
 	private List<Player> getPlayers()
@@ -290,19 +316,20 @@ public class NewGameView extends Composite {
 		TextBox tb = new TextBox();
 		tb.setWidth("80%");
 		tb.setText(obj+"#"+(ppp.getWidgetCount()+1));
-		Button btn = new Button("x");
+		Button removeBtn = new Button("x");
 		final ColorListBox lb = new ColorListBox(!keepUnique);
 		final HorizontalPanel pl = new HorizontalPanel();
 		pl.add(tb);
 		pl.add(lb);
-		pl.add(btn);		
+		pl.add(removeBtn);		
 		
-		btn.addClickHandler(new ClickHandler() {			
+		removeBtn.addClickHandler(new ClickHandler() {			
 			@Override
 			public void onClick(ClickEvent event) {
 				ppp.remove(pl);
 				updateStartGameState();
 				boxes.remove(lb);
+				allowOnlyUsedColors(teamBoxes, playerBoxes);
 			}
 		});
 		
